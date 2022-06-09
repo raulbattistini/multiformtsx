@@ -1,5 +1,5 @@
 import React from 'react'
-import * as C from './style.js'
+import * as C from './style'
 
 
 export function Header() {
