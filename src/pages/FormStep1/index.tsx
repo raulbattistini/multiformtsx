@@ -1,56 +1,73 @@
-import { useNavigate } from 'react-router-dom';
-import * as C from './style';
-import { useForm, FormActions } from '../../context/FormContext';
-import { Theme } from '../../components/Theme';
-import { ChangeEvent, useEffect } from 'react';
-
+import { useNavigate } from "react-router-dom";
+import * as Yup from "yup";
+import * as C from "./style";
+import { useForm, FormActions } from "../../context/FormContext";
+import { Theme } from "../../components/Theme";
+import { useEffect } from "react";
+import {
+    Formik,
+    FormikHelpers,
+    FormikProps,
+    Form,
+    Field,
+    FieldProps,
+  } from 'formik';
+  interface MyFormValues {
+    name: string;
+  }
 export const FormStep1 = () => {
-    const navigate = useNavigate();
-    const { state, dispatch } = useForm();
+  const navigate = useNavigate();
+  const { state, dispatch } = useForm();
 
-    useEffect(() => {
-        dispatch({
-            type: FormActions.setCurrentStep,
-            payload: 1
-        });
-    }, []);
+  useEffect(() => {
+    dispatch({
+      type: FormActions.setCurrentStep,
+      payload: 1,
+    });
+  }, []);
 
-    const handleNextStep = () => {
-        if(state.name !== '') {
-            navigate('/step2');
-        } else {
-            alert("Preencha os dados.");
-        }
+  const handleNextStep = () => {
+    if (state.name !== "") {
+      navigate("/step2");
+    } else {
+      alert("Preencha os dados.");
     }
+  };
+  const schema = Yup.object().shape({
+    fullname: Yup.string().required(),
+  });
+  const initialValues: MyFormValues = { name: '' };
+  return (
+    <Theme>
+      <C.Container>
+        <C.p>Passo 1/3</C.p>
+        <C.h1>Vamos começar com seu nome</C.h1>
+        <C.p>Preencha o campo abaixo com seu nome completo.</C.p>
 
-    const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
-        dispatch({
-            type: FormActions.setName,
-            payload: e.target.value
-        });
-    }
-
-    return (
-        <Theme>
-            <C.Container>
-                <C.p>Passo 1/3</C.p>
-                <C.h1>Vamos começar com seu nome</C.h1>
-                <C.p>Preencha o campo abaixo com seu nome completo.</C.p>
-
-                <C.hr/>
-
-                <C.label>
-                    Seu nome completo
-                    <C.input
-                        type="text"
-                        autoFocus
-                        value={state.name}
-                        onChange={handleNameChange}
-                    />
-                </C.label>
-
-                <C.button onClick={handleNextStep}>Próximo</C.button>
-            </C.Container>
-        </Theme>
-    );
-}
+        <C.hr />
+        <Formik
+          initialValues={initialValues}
+          onSubmit={handleNextStep}
+          validationSchema={schema}
+        >
+          {({ values, errors, touched, handleChange }) => {
+            return (
+              <Form action="submit">
+                <C.label htmlFor="name"> Seu nome completo </C.label>
+                <Field
+                  type="text"
+                  autoFocus
+                  values={state.name}
+                  value={state.name}
+                  onChange={handleChange}
+                  name="name"
+                />
+                <C.button type="submit" onSubmit={handleNextStep}>Próximo</C.button>
+              </Form>
+            );
+          }}
+        </Formik>
+      </C.Container>
+    </Theme>
+  );
+};
