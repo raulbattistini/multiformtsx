@@ -33,23 +33,23 @@ export const FormStep1 = () => {
     return (
         <Theme>
             <C.Container>
-                <p>Passo 1/3</p>
-                <h1>Vamos começar com seu nome</h1>
-                <p>Preencha o campo abaixo com seu nome completo.</p>
+                <C.p>Passo 1/3</C.p>
+                <C.h1>Vamos começar com seu nome</C.h1>
+                <C.p>Preencha o campo abaixo com seu nome completo.</C.p>
 
-                <hr/>
+                <C.hr/>
 
-                <label>
+                <C.label>
                     Seu nome completo
-                    <input
+                    <C.input
                         type="text"
                         autoFocus
                         value={state.name}
                         onChange={handleNameChange}
                     />
-                </label>
+                </C.label>
 
-                <button onClick={handleNextStep}>Próximo</button>
+                <C.button onClick={handleNextStep}>Próximo</C.button>
             </C.Container>
         </Theme>
     );

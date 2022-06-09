@@ -38,11 +38,11 @@ export const FormStep2 = () => {
     return (
         <Theme>
             <C.Container>
-                <p>Passo 2/3</p>
-                <h1>{state.name}, o que melhor descreve você?</h1>
-                <p>Escolha a opção que melhor condiz com seu estado atual, profissionalmente.</p>
+                <C.p>Passo 2/3</C.p>
+                <C.h1>{state.name}, o que melhor descreve você?</C.h1>
+                <C.p>Escolha a opção que melhor condiz com seu estado atual, profissionalmente.</C.p>
 
-                <hr/>
+                <C.hr/>
 
                 <SelectOption
                     title="Sou iniciante"
@@ -61,7 +61,7 @@ export const FormStep2 = () => {
                 />
 
                 <Link to="/" className="backButton">Voltar</Link>
-                <button onClick={handleNextStep}>Próximo</button>
+                <C.button onClick={handleNextStep}>Próximo</C.button>
             </C.Container>
         </Theme>
     );

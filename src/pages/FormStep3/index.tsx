@@ -43,32 +43,32 @@ export const FormStep3 = () => {
     return (
         <Theme>
             <C.Container>
-                <p>Passo 3/3</p>
-                <h1>Legal {state.name}, onde te achamos?</h1>
-                <p>Preencha com seus contatos para conseguirmos entrar em contato.</p>
+                <C.p>Passo 3/3</C.p>
+                <C.h1>Legal {state.name}, onde te achamos?</C.h1>
+                <C.p>Preencha com seus contatos para conseguirmos entrar em contato.</C.p>
 
-                <hr/>
+                <C.hr/>
 
-                <label>
+                <C.label>
                     Qual seu e-mail?
-                    <input
+                    <C.input
                         type="email"
                         value={state.email}
                         onChange={handleEmailChange}
                     />
-                </label>
+                </C.label>
 
-                <label>
+                <C.label>
                     Qual seu GitHub?
-                    <input
+                    <C.input
                         type="url"
                         value={state.github}
                         onChange={handleGithubChange}
                     />
-                </label>
+                </C.label>
 
                 <Link to="/step2" className="backButton">Voltar</Link>
-                <button onClick={handleNextStep}>Finalizar Cadastro</button>
+                <C.button onClick={handleNextStep}>Finalizar Cadastro</C.button>
             </C.Container>
         </Theme>
     );
