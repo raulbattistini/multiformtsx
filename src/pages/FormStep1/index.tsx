@@ -17,13 +17,13 @@ export const FormStep1 = () => {
       type: FormActions.setCurrentStep,
       payload: 1,
     });
-  }, [dispatch]);
+  }, [dispatch, state]);
 
-  const handleNextStep = () => {
+  const handleNextStep = (state: any) => {
       navigate("/step2");
       dispatch({
         type: FormActions.setName,
-        payload: (initialData.name) //acessar o valor que se coloca no input
+        payload: (state.name) //acessar o valor que se coloca no input
       })
       console.log(state.name)
   };
@@ -41,8 +41,8 @@ export const FormStep1 = () => {
         <C.hr />
         <Formik
           initialValues={initialData}
-          onSubmit={(values) => {
-            handleNextStep();
+          onSubmit={(state) => {
+            handleNextStep(state.name)
           }}
           validationSchema={schema}
           enableReinitialize
@@ -52,7 +52,7 @@ export const FormStep1 = () => {
               <Form action="submit" autoComplete="off">
                 <Field
                   type="text"
-                  values={values.name} //o formik nao esta recebendo os values
+                  value={values.name} //o formik nao esta recebendo os values
                   onChange={handleChange}
                   name="name"
                 />

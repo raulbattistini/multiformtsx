@@ -1,0 +1,7 @@
+Problema: input *recebe* os values do formik agora, mas a funcao no onsubmit nao leva os valores ao lugar que deveria. 
+Motivo: definicao da funcao no formcontext nao leva argumentos, por isso nao se pode adicionar um argumento de "valores" a funcao, em:
+ dispatch: (action: Action) => void;
+ 
+Problema: possivel avancar no formulario com string vazia no input 
+Motivo: funcao leva "undefined" como argumento
+

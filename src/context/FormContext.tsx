@@ -13,7 +13,7 @@ type Action = {
 };
 type ContextType = {
     state: State;
-    dispatch: (action: Action) => void;
+    dispatch: (action: Action) => any;
 }
 type FormProviderProps = {
     children: ReactNode
