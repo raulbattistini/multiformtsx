@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import * as C from "./style";
-import { useForm, FormActions } from "../../context/FormContext";
+import { useForm, FormActions, initialData } from "../../context/FormContext";
 import { Theme } from "../../components/Theme";
 import { useEffect } from "react";
 import {
@@ -11,8 +11,7 @@ import {
   } from 'formik';
 export const FormStep1 = () => {
   const navigate = useNavigate();
-  const { state, dispatch } = useForm();
-
+  const { state, dispatch } = useForm(); 
   useEffect(() => {
     dispatch({
       type: FormActions.setCurrentStep,
@@ -21,16 +20,17 @@ export const FormStep1 = () => {
   }, [dispatch]);
 
   const handleNextStep = () => {
-    if (state.name !== "") {
       navigate("/step2");
-    } else {
-      alert("Preencha os dados.");
-    }
+      dispatch({
+        type: FormActions.setName,
+        payload: (initialData.name) //acessar o valor que se coloca no input
+      })
+      console.log(state.name)
   };
   const schema = Yup.object().shape({
-    fullname: Yup.string().required(),
+    name: Yup.string().required(),
   });
-  const initialValues = {name: '' };
+
   return (
     <Theme>
       <C.Container>
@@ -40,24 +40,23 @@ export const FormStep1 = () => {
 
         <C.hr />
         <Formik
-          initialValues={initialValues}
-          onSubmit={handleNextStep}
+          initialValues={initialData}
+          onSubmit={(values) => {
+            handleNextStep();
+          }}
           validationSchema={schema}
+          enableReinitialize
         >
           {({ values, errors, touched, handleChange }) => {
             return (
-              <Form action="submit">
-                <C.label htmlFor="name"> Seu nome completo </C.label>
+              <Form action="submit" autoComplete="off">
                 <Field
                   type="text"
-                  autoFocus 
-                  values={state.name} //o values do formik não esta sendo inserido
+                  values={values.name} //o formik nao esta recebendo os values
                   onChange={handleChange}
                   name="name"
-                  error={touched.name && Boolean(errors.name)}
-                  helpertext={touched.name && errors.name} 
                 />
-                <C.button type="submit" onSubmit={handleNextStep}>Próximo</C.button>
+                <C.button type="submit">Próximo</C.button>
               </Form>
             );
           }}

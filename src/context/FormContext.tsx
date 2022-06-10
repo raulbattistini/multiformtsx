@@ -19,7 +19,7 @@ type FormProviderProps = {
     children: ReactNode
 };
 
-const initialData: State = {
+export const initialData: State = {
     currentStep: 0,
     name: '',
     level: 0,
