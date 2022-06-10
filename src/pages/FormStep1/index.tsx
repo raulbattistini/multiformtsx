@@ -6,15 +6,9 @@ import { Theme } from "../../components/Theme";
 import { useEffect } from "react";
 import {
     Formik,
-    FormikHelpers,
-    FormikProps,
     Form,
-    Field,
-    FieldProps,
+    Field
   } from 'formik';
-  interface MyFormValues {
-    name: string;
-  }
 export const FormStep1 = () => {
   const navigate = useNavigate();
   const { state, dispatch } = useForm();
@@ -24,7 +18,7 @@ export const FormStep1 = () => {
       type: FormActions.setCurrentStep,
       payload: 1,
     });
-  }, []);
+  }, [dispatch]);
 
   const handleNextStep = () => {
     if (state.name !== "") {
@@ -36,7 +30,7 @@ export const FormStep1 = () => {
   const schema = Yup.object().shape({
     fullname: Yup.string().required(),
   });
-  const initialValues: MyFormValues = { name: '' };
+  const initialValues = {name: '' };
   return (
     <Theme>
       <C.Container>
@@ -56,11 +50,12 @@ export const FormStep1 = () => {
                 <C.label htmlFor="name"> Seu nome completo </C.label>
                 <Field
                   type="text"
-                  autoFocus
-                  values={state.name}
-                  value={state.name}
+                  autoFocus 
+                  values={state.name} //o values do formik não esta sendo inserido
                   onChange={handleChange}
                   name="name"
+                  error={touched.name && Boolean(errors.name)}
+                  helpertext={touched.name && errors.name} 
                 />
                 <C.button type="submit" onSubmit={handleNextStep}>Próximo</C.button>
               </Form>
