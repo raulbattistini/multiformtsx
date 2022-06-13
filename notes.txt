@@ -5,3 +5,7 @@ Motivo: definicao da funcao no formcontext nao leva argumentos, por isso nao se 
 Problema: possivel avancar no formulario com string vazia no input 
 Motivo: funcao leva "undefined" como argumento
 
+Erros:
+1. Dependencias no effect = bugs;
+2. Tipagem any no state, com todos os valores sendo passados no payload e na funcao sendo usado apenas 1 deles (name) e;
+3. initialValues do Formik com initialData vinda do contexto com todos os valores, mas usando so o name

@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import * as C from "./style";
-import { useForm, FormActions, initialData } from "../../context/FormContext";
+import { useForm, FormActions} from "../../context/FormContext";
 import { Theme } from "../../components/Theme";
 import { useEffect } from "react";
 import {
@@ -11,24 +11,25 @@ import {
   } from 'formik';
 export const FormStep1 = () => {
   const navigate = useNavigate();
-  const { state, dispatch } = useForm(); 
+  const {dispatch } = useForm(); 
   useEffect(() => {
     dispatch({
       type: FormActions.setCurrentStep,
       payload: 1,
-    });
-  }, [dispatch, state]);
 
-  const handleNextStep = (state: any) => {
+    });      // eslint-disable-next-line
+  }, []);
+
+  const handleNextStep = (name: string) => {
       navigate("/step2");
       dispatch({
         type: FormActions.setName,
-        payload: (state.name) //acessar o valor que se coloca no input
+        payload: (name) //acessar o valor que se coloca no input
       })
-      console.log(state.name)
+      console.log(name)
   };
   const schema = Yup.object().shape({
-    name: Yup.string().required(),
+    name: Yup.string().trim().required(),
   });
 
   return (
@@ -40,7 +41,9 @@ export const FormStep1 = () => {
 
         <C.hr />
         <Formik
-          initialValues={initialData}
+          initialValues={{
+            name: ""
+          }}
           onSubmit={(state) => {
             handleNextStep(state.name)
           }}
@@ -52,7 +55,7 @@ export const FormStep1 = () => {
               <Form action="submit" autoComplete="off">
                 <Field
                   type="text"
-                  value={values.name} //o formik nao esta recebendo os values
+                  value={values.name} 
                   onChange={handleChange}
                   name="name"
                 />
