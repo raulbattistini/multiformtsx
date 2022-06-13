@@ -1,75 +1,88 @@
-import { useNavigate, Link } from 'react-router-dom';
-import * as C from './style';
-import { useForm, FormActions } from '../../context/FormContext';
-import { Theme } from '../../components/Theme';
-import { ChangeEvent, useEffect } from 'react';
+import { useNavigate, Link } from "react-router-dom";
+import { Formik, Form, Field } from "formik";
+import * as C from "./style";
+import { useForm, FormActions } from "../../context/FormContext";
+import { Theme } from "../../components/Theme";
+import { useEffect } from "react";
 
 export const FormStep3 = () => {
-    const navigate = useNavigate();
-    const { state, dispatch } = useForm();
+  const navigate = useNavigate();
+  const { state, dispatch } = useForm();
 
-    useEffect(() => {
-        if(state.name === '') {
-            navigate('/');
-        } else {
-            dispatch({
-                type: FormActions.setCurrentStep,
-                payload: 3
-            });
-        }
-    }, []);
+  useEffect(() => {
+    if (state.name === "") {
+      navigate("/");
+    } else {
+      dispatch({
+        type: FormActions.setCurrentStep,
+        payload: 3,
+      });
+    } // eslint-disable-next-line
+  }, []);
 
-    const handleNextStep = () => {
-        if(state.email !== '' && state.github !== '') {
-            console.log(state);
-        } else {
-            alert("Preencha os dados");
-        }
-    }
+  const handleNextStep = (email: string, github: string) => {
+    dispatch({
+      type: FormActions.setEmail,
+      payload: email
+    });
+    dispatch({
+      type: FormActions.setGithub,
+      payload: github
+    });
+    console.log(email, github);
+    console.log(state)
+  };
 
-    const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
-        dispatch({
-            type: FormActions.setEmail,
-            payload: e.target.value
-        });
-    }
-    const handleGithubChange = (e: ChangeEvent<HTMLInputElement>) => {
-        dispatch({
-            type: FormActions.setGithub,
-            payload: e.target.value
-        });
-    }
+  return (
+    <Theme>
+      <C.Container>
+        <C.p>Passo 3/3</C.p>
+        <C.h1>Legal {state.name}, onde te achamos?</C.h1>
+        <C.p>
+          Preencha com seus contatos para conseguirmos entrar em contato.
+        </C.p>
 
-    return (
-        <Theme>
-            <C.Container>
-                <C.p>Passo 3/3</C.p>
-                <C.h1>Legal {state.name}, onde te achamos?</C.h1>
-                <C.p>Preencha com seus contatos para conseguirmos entrar em contato.</C.p>
-
-                <C.hr/>
-
-                <C.label>
-                    Qual seu e-mail?
-                    <C.input
-                        type="email"
-                        value={state.email}
-                        onChange={handleEmailChange}
-                    />
-                </C.label>
-
-                <C.label>
-                    Qual seu GitHub?
-                    <C.input
-                        type="url"
-                        value={state.github}
-                        onChange={handleGithubChange}
-                    />
-                </C.label>
-
-                <Link to="/step2" className="backButton">Voltar</Link>
-                <C.button onClick={handleNextStep}>Finalizar Cadastro</C.button>
-            </C.Container>
-        </Theme>
-    );
-}
+        <C.hr />
+        <Formik
+          initialValues={{
+            email: "",
+            github: "",
+          }}
+          onSubmit={(state) => {
+            handleNextStep(state.email, state.github);
+          }}
+        >
+          {({ values, errors, touched, handleChange }) => {
+            return (
+              <Form>
+                <Field
+                  value={values.email}
+                  onChange={handleChange}
+                  placeholder="Seu melhor email"
+                  type="email"
+                  name="email"
+                />
+                <Field
+                  value={values.github}
+                  onChange={handleChange}
+                  placeholder="Seu Github"
+                  type="url"
+                  name="github"
+                />
+                <Link 
+                to="/step2" 
+                className="backButton"
+                >
+                Voltar
+                </Link>
+                <C.button type="submit" onClick={()=>{console.log(state)}}>
+                Finalizar Cadastro
+                </C.button>
+              </Form>
+            );
+          }}
+        </Formik>
+      </C.Container>
+    </Theme>
+  );
+};
