@@ -1,5 +1,6 @@
 import { useNavigate, Link } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
+import * as Yup from 'yup';
 import * as C from "./style";
 import { useForm, FormActions } from "../../context/FormContext";
 import { Theme } from "../../components/Theme";
@@ -29,10 +30,12 @@ export const FormStep3 = () => {
       type: FormActions.setGithub,
       payload: github
     });
-    console.log(email, github);
     console.log(state)
   };
-
+  const schema = Yup.object().shape({
+    email: Yup.string().email().trim().required(),
+    github: Yup.string().url().trim().required()
+  });
   return (
     <Theme>
       <C.Container>
@@ -50,7 +53,9 @@ export const FormStep3 = () => {
           }}
           onSubmit={(state) => {
             handleNextStep(state.email, state.github);
+            console.log(state)
           }}
+          validationSchema={schema}
         >
           {({ values, errors, touched, handleChange }) => {
             return (
@@ -75,7 +80,7 @@ export const FormStep3 = () => {
                 >
                 Voltar
                 </Link>
-                <C.button type="submit" onClick={()=>{console.log(state)}}>
+                <C.button type="submit">
                 Finalizar Cadastro
                 </C.button>
               </Form>
